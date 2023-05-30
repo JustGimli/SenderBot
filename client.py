@@ -10,7 +10,7 @@ from telethon.tl.types import (
     KeyboardButtonUrl,
     KeyboardButtonCallback
 )
-from database import show_chats, set_chats,\
+from dp.database import show_chats, set_chats,\
     create_chat, del_chat, show_chats_id
 from utils import get_chat_id
 from markup import start_markup
@@ -190,17 +190,19 @@ async def handler(message):
 
 
 async def client_task(i):
-    print(f'succesufuly send-{i}')
+
     try:
         await asyncio.wait_for(client.send_message(i, data['message']), timeout=10)
-    except asyncio.TimeoutError:
+        print(f'succesufuly send-{i}')
+    except Exception as e:
         pass
 
 
 async def shedule_send(sec: int):
     dialogs = client.iter_dialogs()
     ids, mes = await get_chat_id(data, dialogs)
-    ids.pop()
+
+    print(ids)
 
     while data['set']:
         tasks = []
@@ -210,6 +212,7 @@ async def shedule_send(sec: int):
 
         # Wait for all tasks to complete
         await asyncio.gather(*tasks)
+        await asyncio.sleep(sec * 60)
 
 
 async def main():
