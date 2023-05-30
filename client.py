@@ -10,7 +10,7 @@ from telethon.tl.types import (
     KeyboardButtonUrl,
     KeyboardButtonCallback
 )
-from dp.database import show_chats, set_chats,\
+from database import show_chats, set_chats,\
     create_chat, del_chat, show_chats_id
 from utils import get_chat_id
 from markup import start_markup
